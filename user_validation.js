@@ -63,7 +63,7 @@
                   // Verify the password (this is a simple example; in a real application,
                   // passwords should be hashed and verified through a secure method)
                   if (userDoc.password === password) {
-                      alert('Login successful!');
+                    window.location.href = 'home.html';
                       // Redirect or do something after successful login
                   } else {
                       document.getElementById('password_error_message').innerText = 'Invalid password.';
