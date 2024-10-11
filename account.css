@@ -1,0 +1,87 @@
+body {
+    display: flex;
+    font-family: Arial, sans-serif;
+    margin-top: 50px;
+    background-color: #f4f4f4;
+    justify-content: center;
+}
+
+.form-container {
+    display: flex;
+    padding: 20px;
+    background-color: #ececec;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    width: 60%;
+}
+
+.content {
+    flex: 1;
+    margin-right: 20px;
+    padding: 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    align-content: center;
+}
+
+.form-area {
+    flex: 2;
+}
+
+form {
+    max-width: 100%;
+    margin: auto;
+}
+
+fieldset {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+legend {
+    font-weight: bold;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.fields {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.fields:last-child {
+    margin-right: 0;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.update-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.update-btn:hover {
+    background-color: #45a049;
+}
+
+.user_image {
+    width: 350px;
+    height: 250px;
+}
