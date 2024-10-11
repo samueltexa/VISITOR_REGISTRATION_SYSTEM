@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visitor Registration Form</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body onload="loadPage('account.html')">
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="profile">
+                <div class="profile-pic"></div>
+                <p class="profile_name">Woolard Samuel</p>
+            </div>
+            <div id="sidenav">
+                <ul>
+                    <li><a href="try.html" onclick="loadPage('t.html'); return false;"><span class="icon">🏠</span> Dashboard</a></li>
+                    <li><a href="account.html" onclick="loadPage('account.html'); return false;"><span class="icon">👤</span> Account</a></li>
+                    <li><a href="registration.html" onclick="loadPage('registration.html'); return false;"><span class="icon">📝</span> Registration</a></li>
+                    <li><a href="visitors.html" onclick="loadPage('visitors.html'); return false;"><span class="icon">👥</span> Visitors List</a></li>
+                    <li><a href="settings.html" onclick="loadPage('settings.html'); return false;"><span class="icon">⚙️</span> Settings</a></li>
+                    <li><a href="logout.html" onclick="loadPage('logout.html'); return false;"><span class="icon">🚪</span> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="form-container" id="content-container">
+            <!-- Default content will be loaded here -->
+        </div>
+    </div>
+
+    <script>
+        function loadPage(page) {
+            const contentContainer = document.getElementById('content-container');
+            fetch(page)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    contentContainer.innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                    contentContainer.innerHTML = '<p>Error loading content.</p>';
+                });
+        }
+    </script>
+
+</body>
+
+</html>
