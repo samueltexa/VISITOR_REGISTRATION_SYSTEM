@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="login.css">
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-firestore.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-auth.js";
+
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAGi6rFI-jtuE0RG8BgVDTwg1xM1T89Cew",
+            authDomain: "registration-system-ede2e.firebaseapp.com",
+            projectId: "registration-system-ede2e",
+            storageBucket: "registration-system-ede2e.appspot.com",
+            messagingSenderId: "618034098271",
+            appId: "1:618034098271:web:509279dcd6ea5cf60fabea",
+            measurementId: "G-0CY8V1NNWP"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // Handle login
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('login-form').addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const username = document.getElementById('login_username').value;
+                const password = document.getElementById('login_password').value;
+
+                try {
+                    // Check if username exists in Firestore
+                    const usersRef = collection(db, 'users');
+                    const q = query(usersRef, where('username', '==', username));
+                    const querySnapshot = await getDocs(q);
+
+                    if (!querySnapshot.empty) {
+                        const userDoc = querySnapshot.docs[0].data();
+
+                        // Verify the password (this is a simple example; in a real application, 
+                        // passwords should be hashed and verified through a secure method)
+                        if (userDoc.password === password) {
+                            alert('Login successful!');
+                            // Redirect or do something after successful login
+                        } else {
+                            document.getElementById('password_error_message').innerText = 'Invalid password.';
+                        }
+                    } else {
+                        document.getElementById('username_error_message').innerText = 'Username not found.';
+                    }
+                } catch (error) {
+                    console.error('Error logging in:', error);
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+    <div class="login-container">
+        <div class="logo">
+            <img src="profile.jpeg" alt="Company Logo"> 
+        </div>
+        <h2>Login</h2>
+        <form id="login-form">
+            <div class="input-group">
+                <label for="username">Username or ID</label>
+                <input type="text" id="login_username" placeholder="Enter your username or ID" required>
+                <div class="error-message" id="username_error_message"></div>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="login_password" placeholder="Enter your password" required>
+                <div class="error-message" id="password_error_message"></div>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+</body>
+
+</html>
