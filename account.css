@@ -12,7 +12,9 @@
     margin-right: 20px;
     padding: 20px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    align-content: center;
+    display: flex; /* Stack elements vertically */
+    flex-direction: column; /* Add this */
+    align-items: center; /* Center align items if needed */
 }
 
 .form-area {
@@ -76,4 +78,6 @@ input[type="password"] {
 .user_image {
     width: 350px;
     height: 250px;
+    margin: 10px 0; 
+    align-self: center;
 }
