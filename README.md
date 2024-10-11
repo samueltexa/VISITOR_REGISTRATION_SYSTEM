@@ -29,7 +29,7 @@ The Visitor Registration System is a web-based application designed to streamlin
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/visitor-registration-system.git
+   git clone https://github.com/samueltexa/visitor-registration-system.git
    ```
 2. Navigate to the project directory:
    ```bash
