@@ -7,6 +7,7 @@
     <title>Visitor Registration Form</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script type="module" src="form.js"></script>
 </head>
 
 <body>
@@ -17,12 +18,45 @@
                 <div class="profile-pic"></div>
                 <p class="profile_name">Woolard Samuels</p>
             </div>
-            <iframe src="sidenav.html"></iframe>
+            <!-- <iframe src="sidenav.html"></iframe> -->
+
+            <nav id="sidenav">
+                <ul>
+
+
+                    <a href="#" onclick="loadContent('account.html')">Account</a>
+                    <a href="#" onclick="loadContent('accounts.html')">Contact</a>
+                    <a href="#" onclick="loadContent('accounts.html')">Register</a>
+
+
+
+                    <li><a href="#" onclick="parent.loadPage('1')"><span class="icon">📝</span> Registration</a></li>           
+                    <li><a href="#" onclick="parent.loadPage('2')"><span class="icon">👥</span> Visitors List</a></li>
+                    <li><a href="#" onclick="parent.loadPage('3')"><span class="icon">👤</span> Account</a></li>
+                    <li><a href="#" onclick="parent.loadPage('4')"><span class="icon">⚙️</span> Settings</a></li>
+                    <li><a href="#" onclick="window.top.location.href='index.html';"><span class="icon">🚪</span> Logout</a></li>
+                </ul>
+            </nav> 
         </div>
         <div class="form-container" id="form-container"></div>
 
-
         <script>
+            function loadContent(page) {
+                fetch(page)
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById('content').innerHTML = data;
+                    })
+                    .catch(error => {
+                        document.getElementById('content').innerHTML = "<p>Error loading content.</p>";
+                    });
+            }
+        </script>
+
+    
+
+
+        <!-- <script>
             async function loadPage(page) {
                 const container = document.getElementById('form-container');
                 let file = '';
@@ -56,9 +90,9 @@
             }
 
             window.onload = function () {
-                loadPage('1');
+                loadPage('3');
             };
-        </script>
+        </script> -->
 
 </body>
 
