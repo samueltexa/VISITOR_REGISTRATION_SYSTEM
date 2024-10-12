@@ -29,17 +29,16 @@
             padding: 20px;
         }
     </style>
-    <script type="module"  src="test.js" ></script>
-    <!-- <script type="module"  src="test.js" ></script>
-    <script type="module" src="form.js"></script> -->
+    <script type="module" src="test.js"></script>
+    <!-- <script src="validation.js" defer></script> -->
 </head>
 <body>
 
     <div class="sidebar">
         <h2>Navigation</h2>
-        <a href="#" onclick="loadContent('account.html')">Account</a>
-        <a href="#" onclick="loadContent('accounts.html')">Contact</a>
-        <a href="#" onclick="loadContent('accounts.html')">Register</a>
+        <a href="#" onclick="loadContent('accounts.html')">Account</a>
+        <a href="#" onclick="loadContent('contact.html')">Contact</a>
+        <a href="#" onclick="loadContent('register.html')">Register</a>
     </div>
 
     <div class="content" id="content">
@@ -50,11 +49,19 @@
     <script>
         function loadContent(page) {
             fetch(page)
-                .then(response => response.text())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
                 .then(data => {
                     document.getElementById('content').innerHTML = data;
+                    // Attach the form listener after the content has been loaded
+                    attachFormListener(); 
                 })
                 .catch(error => {
+                    console.error("Error loading content:", error);
                     document.getElementById('content').innerHTML = "<p>Error loading content.</p>";
                 });
         }
