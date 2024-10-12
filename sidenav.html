@@ -5,14 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="load.js" ></script>
 </head>
 <body>
     <nav id="sidenav">
         <ul>
-            <li><a href="#" onclick="loadContent('accounts.html')"><span class="icon">📝</span> Registration</a></li>
+            <li><a href="#" onclick="parent.loadPage('1')"><span class="icon">📝</span> Registration</a></li>           
             <li><a href="#" onclick="parent.loadPage('2')"><span class="icon">👥</span> Visitors List</a></li>
-            <li><a href="#" onclick="parent.loadPage('3')"><span class="icon">👤</span> Account</a></li>
+            <li><a href="" onclick="parent.loadPage('3')"><span class="icon">👤</span> Account</a></li>
             <li><a href="#" onclick="parent.loadPage('4')"><span class="icon">⚙️</span> Settings</a></li>
             <li><a href="#" onclick="window.top.location.href='index.html';"><span class="icon">🚪</span> Logout</a></li>
         </ul>
