@@ -16,7 +16,7 @@ body {
 
 .sidebar {
     width: 170px;
-    background-color: #b46262;
+    background-color: red;
     padding: 20px;
     height: 180vh;
     margin-left: 10px;
@@ -131,6 +131,6 @@ label {
 
 iframe {
     border: none;
-    height: 100vh;
+    height: 150vh;
     width: 150px;
 }
