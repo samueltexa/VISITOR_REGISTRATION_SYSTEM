@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Side Navigation Example</title>
+    <style>
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: #f8f8f8;
+            padding: 15px;
+            border-right: 1px solid #ddd;
+        }
+        .sidebar a {
+            display: block;
+            margin: 10px 0;
+            text-decoration: none;
+            color: #333;
+        }
+        .sidebar a:hover {
+            background-color: #ddd;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+    </style>
+    <script type="module"  src="test.js" ></script>
+    <!-- <script type="module"  src="test.js" ></script>
+    <script type="module" src="form.js"></script> -->
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>Navigation</h2>
+        <a href="#" onclick="loadContent('account.html')">Account</a>
+        <a href="#" onclick="loadContent('accounts.html')">Contact</a>
+        <a href="#" onclick="loadContent('accounts.html')">Register</a>
+    </div>
+
+    <div class="content" id="content">
+        <h2>Welcome</h2>
+        <p>Select a link from the side navigation to display content.</p>
+    </div>
+
+    <script>
+        function loadContent(page) {
+            fetch(page)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('content').innerHTML = data;
+                })
+                .catch(error => {
+                    document.getElementById('content').innerHTML = "<p>Error loading content.</p>";
+                });
+        }
+    </script>
+
+</body>
+</html>
