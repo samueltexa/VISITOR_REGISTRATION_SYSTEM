@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script type="module" src="registration.js"></script>
-    <script type="module" src="form.js"></script>
+    <script type="module" src="account.js"></script>
     <script type="module" src="visitor-display.js" ></script>
 </head>
 <body>
@@ -16,7 +16,7 @@
     <div class="container">
         <div class="sidebar">
             <div class="profile">
-                <div class="profile-pic"></div>
+                    <img class="profile-pic" src="profile.jpeg" alt="">
                 <p class="profile_name">Woolard Samuels</p>
             </div>
             <nav id="sidenav">
@@ -46,8 +46,8 @@
                 .then(data => {
                     document.getElementById('form-container').innerHTML = data;
                     attachFormListener();
-                    attachFormListeners();
-                    attachFormListenerss();
+                    // attachFormListeners();
+                    // attachFormListenerss();
                     
                     sessionStorage.setItem('lastPage', page);
                 })
