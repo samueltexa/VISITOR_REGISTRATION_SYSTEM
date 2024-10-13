@@ -1,16 +1,37 @@
 // Import Firebase modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js";
 import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-storage.js"; // Import Storage-related functions
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-storage.js";
 import firebaseConfig from "./firebase-config.js";
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);  // Initialize Firestore
-const storage = getStorage(app);  // Initialize Firebase Storage
+const db = getFirestore(app); // Initialize Firestore
+const storage = getStorage(app); // Initialize Firebase Storage
+
+// Attach form listener function
+window.attachFormListener = function() {
+    const form = document.getElementById('visitor-form');
+    const updateButton = document.querySelector('.update-btn');
+
+    if (form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevent default form submission
+            updateButton.textContent = 'Updating...'; // Change button text to indicate loading
+            updateButton.disabled = true; // Optionally disable the button
+
+            await handleSubmit(); // Call the handleSubmit function
+            
+            updateButton.textContent = 'Update'; // Reset button text after the update
+            updateButton.disabled = false; // Re-enable the button
+        });
+    } else {
+        console.error("Form element not found."); // Log the error for debugging
+    }
+};
 
 // Function to handle form submission
-window.handleSubmit = async function() {
+async function handleSubmit() {
     // Get the form elements
     const firstName = document.getElementById('first-name').value.trim();
     const lastName = document.getElementById('last-name').value.trim();
@@ -34,6 +55,10 @@ window.handleSubmit = async function() {
         alert('First Name, Last Name, and Nationality are required.');
         return; // Stop submission if validation fails
     }
+
+    const updateButton = document.querySelector('.update-btn');
+    updateButton.textContent = 'Saving...'; // Change button text to show loading
+    updateButton.disabled = true; // Disable the button
 
     try {
         // Document reference
@@ -61,7 +86,7 @@ window.handleSubmit = async function() {
         // Upload photo if a file was selected
         if (photo) {
             const storageRef = ref(storage, `visitor_photos/${firstName}-${lastName}-${Date.now()}`);
-            await uploadBytes(storageRef, photo);  // Upload the photo
+            await uploadBytes(storageRef, photo); // Upload the photo
             const photoURL = await getDownloadURL(storageRef); // Get the photo URL
             visitorData.photoURL = photoURL; // Add photo URL to the visitor data
         }
@@ -73,11 +98,11 @@ window.handleSubmit = async function() {
     } catch (error) {
         console.error("Error adding visitor: ", error);
         alert("Error submitting form: " + error.message);
+    } finally {
+        updateButton.textContent = 'Update'; // Reset button text after the update
+        updateButton.disabled = false; // Re-enable the button
     }
 }
 
-// Attach form listener to submit button
-document.querySelector('.update-btn').addEventListener('click', (e) => {
-    e.preventDefault();
-    handleSubmit(); // Call the handleSubmit function on button click
-});
+// Call the function to attach the form listener
+attachFormListener();
