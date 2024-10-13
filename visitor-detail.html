@@ -7,28 +7,22 @@
     <link rel="stylesheet" href="visitor-detail.css">
     <script type="module" src="visitor-detail.js"></script>
 
-    <style>
-        .print-button {
-            margin: 20px;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .print-button:hover {
-            background-color: #45a049;
-        }
-    </style>
 </head>
 
 <body>
     <div class="form-container">
-        <button class="print-button" onclick="window.print()">Print</button> <!-- Print Button -->
+        <button class="print-button" onclick="window.print()">Print</button>
         <div id="visitor-detail">
             <!-- Visitor details will be populated here -->
+        </div>
+        
+        <!-- Footer Section -->
+        <div class="footer">
+            <p><strong>Confidentiality Notice:</strong> This document contains confidential information intended for the designated recipient only. Unauthorized distribution or copying is prohibited.</p>
+            <p><strong>Company Policy:</strong> All visitors must sign out at the reception before leaving the premises. Any queries should be directed to the host or security staff.</p>
+            <p><strong>Signatures:</strong></p>
+            <p>______________________  &nbsp; &nbsp; &nbsp;  ______________________</p>
+            <p>Visitor Signature &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  Host Signature</p>
         </div>
     </div>
 </body>
