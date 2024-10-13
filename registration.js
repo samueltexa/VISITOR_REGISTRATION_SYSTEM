@@ -10,9 +10,9 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-window.attachFormListener = function() {
+window.attachFormListeners = function() {
     const form = document.getElementById('visitor-form');
-    const updateButton = document.querySelector('.update-btn');
+    // const updateButton = document.querySelector('.update-btn');
 
     if (form) {
         form.addEventListener('submit', async (e) => {
@@ -40,6 +40,7 @@ async function updateUserProfile() {
     const emergencyContact = document.getElementById('emergency').value.trim();
     const purpose = document.getElementById('purpose').value.trim();
     const host = document.getElementById('host').value.trim();
+    const duration = document.getElementById('duration').value.trim();
     const scheduleTime = document.getElementById('schedule_time').value;
     const badgeNumber = document.getElementById('badge_number').value.trim();
     const entryTime = document.getElementById('entry').value;
@@ -72,6 +73,7 @@ async function updateUserProfile() {
             emergencyContact,
             purpose,
             host,
+            duration,
             scheduleTime,
             badgeNumber,
             entryTime,
