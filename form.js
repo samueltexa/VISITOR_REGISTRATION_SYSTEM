@@ -22,11 +22,11 @@ window.attachFormListener = function() {
     if (form) {
         form.addEventListener('submit', async (e) => {
             e.preventDefault(); // Prevent default form submission
-            updateButton.textContent = 'Updating...'; // Change button text to indicate loading
-            updateButton.disabled = true; // Optionally disable the button
+            updateButton.textContent = 'Updating...'; // Initial loading state
+            updateButton.disabled = true; // Disable the button to prevent multiple submissions
 
-            await updateUserProfile(passwordField, passwordErrorMessage, photoField); // Pass the loading message as a parameter
-            
+            await updateUserProfile(passwordField, passwordErrorMessage, photoField);
+
             updateButton.textContent = 'Update'; // Reset button text after the update
             updateButton.disabled = false; // Re-enable the button
         });
@@ -59,7 +59,7 @@ async function updateUserProfile(passwordField, passwordErrorMessage, photoField
             // Verify the current password matches
             if (userData.password !== passwordField.value) {
                 passwordErrorMessage.textContent = 'Incorrect password. Please try again.';
-                passwordErrorMessage.style.color ='red';
+                passwordErrorMessage.style.color = 'red';
                 return; // Stop execution if password doesn't match
             }
 
@@ -80,7 +80,11 @@ async function updateUserProfile(passwordField, passwordErrorMessage, photoField
             // Handle photo upload if a file is selected
             if (photoField.files.length > 0) {
                 const photoFile = photoField.files[0];
-                const storageRef = ref(storage, `profile_pictures/${userId}/current_photo.jpg`); // Create a reference for the new photo
+                const storageRef = ref(storage, `profile_pictures/${userId}/current_photo.jpg`); // Reference for the new photo
+
+                // Set button text to "Uploading photo..."
+                const updateButton = document.querySelector('.update-btn');
+                updateButton.textContent = 'Uploading photo...'; 
 
                 // Check if the old photo exists
                 try {
@@ -103,6 +107,9 @@ async function updateUserProfile(passwordField, passwordErrorMessage, photoField
                 updatedData.photoURL = photoURL; // Assuming you have a photoURL field in Firestore
             }
 
+            // Set button text to "Updating profile..."
+            updateButton.textContent = 'Updating profile...'; 
+
             // Update Firestore user document
             await updateDoc(userRef, updatedData);
             passwordErrorMessage.textContent = 'User profile updated successfully!'; // Success message
@@ -113,5 +120,6 @@ async function updateUserProfile(passwordField, passwordErrorMessage, photoField
     } catch (error) {
         console.error("Error updating document: ", error);
         passwordErrorMessage.textContent = "An error occurred while updating the profile."; // Error handling
+        passwordErrorMessage.style.color = 'red';
     }
 }
