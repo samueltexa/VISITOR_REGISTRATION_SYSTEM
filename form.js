@@ -2,11 +2,13 @@
 import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-firestore.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject, getMetadata } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-storage.js"; // Import Firebase Storage
 import firebaseConfig from "./firebase-config.js";
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const storage = getStorage(app); // Initialize Firebase Storage
 
 const userId = 'AgDVB2e8cRNsqbCRmj7e'; // This should ideally be dynamically retrieved
 
@@ -14,11 +16,19 @@ window.attachFormListener = function() {
     const form = document.getElementById('user-form');
     const passwordField = document.getElementById('password');
     const passwordErrorMessage = document.getElementById('password_error_message');
+    const photoField = document.getElementById('photo'); // Get the photo input field
+    const updateButton = document.querySelector('.update-btn'); // Get the update button
 
     if (form) {
         form.addEventListener('submit', async (e) => {
             e.preventDefault(); // Prevent default form submission
-            await updateUserProfile(passwordField, passwordErrorMessage); // Pass elements as parameters
+            updateButton.textContent = 'Updating...'; // Change button text to indicate loading
+            updateButton.disabled = true; // Optionally disable the button
+
+            await updateUserProfile(passwordField, passwordErrorMessage, photoField); // Pass the loading message as a parameter
+            
+            updateButton.textContent = 'Update'; // Reset button text after the update
+            updateButton.disabled = false; // Re-enable the button
         });
     } else {
         console.error("Form element not found."); // Log the error for debugging
@@ -26,7 +36,7 @@ window.attachFormListener = function() {
 }
 
 // Function to handle user profile update
-async function updateUserProfile(passwordField, passwordErrorMessage) {
+async function updateUserProfile(passwordField, passwordErrorMessage, photoField) {
     // Clear previous error messages
     passwordErrorMessage.textContent = '';
 
@@ -49,6 +59,7 @@ async function updateUserProfile(passwordField, passwordErrorMessage) {
             // Verify the current password matches
             if (userData.password !== passwordField.value) {
                 passwordErrorMessage.textContent = 'Incorrect password. Please try again.';
+                passwordErrorMessage.style.color ='red';
                 return; // Stop execution if password doesn't match
             }
 
@@ -65,6 +76,32 @@ async function updateUserProfile(passwordField, passwordErrorMessage) {
             if (emailField.value) updatedData.email = emailField.value;
             if (nationalIdField.value) updatedData.nationalId = nationalIdField.value;
             if (addressField.value) updatedData.address = addressField.value;
+
+            // Handle photo upload if a file is selected
+            if (photoField.files.length > 0) {
+                const photoFile = photoField.files[0];
+                const storageRef = ref(storage, `profile_pictures/${userId}/current_photo.jpg`); // Create a reference for the new photo
+
+                // Check if the old photo exists
+                try {
+                    await getMetadata(storageRef); // Attempt to get metadata for the old photo
+                    // If successful, delete the old photo
+                    await deleteObject(storageRef);
+                } catch (error) {
+                    if (error.code === 'storage/object-not-found') {
+                        console.warn("Old photo does not exist, proceeding to upload the new one.");
+                    } else {
+                        console.error("Error checking for old photo:", error);
+                    }
+                }
+
+                // Upload the new file to Firebase Storage
+                await uploadBytes(storageRef, photoFile);
+                const photoURL = await getDownloadURL(storageRef); // Get the download URL of the uploaded file
+
+                // Add photo URL to updatedData
+                updatedData.photoURL = photoURL; // Assuming you have a photoURL field in Firestore
+            }
 
             // Update Firestore user document
             await updateDoc(userRef, updatedData);
