@@ -4,11 +4,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Visitor List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Page currently not available</h1>
+    <h1>Visitor List</h1>
+    <table id="visitor-table">
+        <thead>
+            <tr>
+                <th>Photo</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Nationality</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Purpose</th>
+                <th>Host</th>
+                <th>Entry Time</th>
+                <th>Exit Time</th>
+            </tr>
+        </thead>
+        <tbody id="visitor-list">
+            <!-- Visitor data will be appended here dynamically -->
+        </tbody>
+    </table>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-firestore.js";
+        import firebaseConfig from "./firebase-config.js";
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Function to retrieve visitor data from Firestore and display it
+        async function displayVisitors() {
+            const visitorList = document.getElementById('visitor-list'); // Get table body element
+            visitorList.innerHTML = ''; // Clear any existing data
+
+            try {
+                const visitorCollectionRef = collection(db, "visitors");
+                const visitorSnapshot = await getDocs(visitorCollectionRef);
+
+                visitorSnapshot.forEach((doc) => {
+                    const visitorData = doc.data();
+                    const row = document.createElement('tr');
+
+                    // Create table cells for each data field
+                    const photoCell = document.createElement('td');
+                    const firstNameCell = document.createElement('td');
+                    const lastNameCell = document.createElement('td');
+                    const nationalityCell = document.createElement('td');
+                    const phoneCell = document.createElement('td');
+                    const emailCell = document.createElement('td');
+                    const purposeCell = document.createElement('td');
+                    const hostCell = document.createElement('td');
+                    const entryTimeCell = document.createElement('td');
+                    const exitTimeCell = document.createElement('td');
+
+                    // Set cell values based on the visitor data
+                    if (visitorData.photoURL) {
+                        const img = document.createElement('img');
+                        img.src = visitorData.photoURL;
+                        photoCell.appendChild(img);
+                    } else {
+                        photoCell.textContent = "No Photo";
+                    }
+
+                    firstNameCell.textContent = visitorData.firstName || "N/A";
+                    lastNameCell.textContent = visitorData.lastName || "N/A";
+                    nationalityCell.textContent = visitorData.nationality || "N/A";
+                    phoneCell.textContent = visitorData.phone || "N/A";
+                    emailCell.textContent = visitorData.email || "N/A";
+                    purposeCell.textContent = visitorData.purpose || "N/A";
+                    hostCell.textContent = visitorData.host || "N/A";
+                    entryTimeCell.textContent = visitorData.entryTime || "N/A";
+                    exitTimeCell.textContent = visitorData.exitTime || "N/A";
+
+                    // Append cells to the row
+                    row.appendChild(photoCell);
+                    row.appendChild(firstNameCell);
+                    row.appendChild(lastNameCell);
+                    row.appendChild(nationalityCell);
+                    row.appendChild(phoneCell);
+                    row.appendChild(emailCell);
+                    row.appendChild(purposeCell);
+                    row.appendChild(hostCell);
+                    row.appendChild(entryTimeCell);
+                    row.appendChild(exitTimeCell);
+
+                    // Append the row to the table body
+                    visitorList.appendChild(row);
+                });
+            } catch (error) {
+                console.error("Error retrieving visitor data: ", error);
+            }
+        }
+
+        // Call the function to display visitors when the page loads
+        displayVisitors();
+    </script>
 </body>
 
 </html>
