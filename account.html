@@ -1,72 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account</title>
-    <link rel="stylesheet" href="account.css">
-    <script type="module" src="form.js"></script>
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="registration.js"></script>
 </head>
 <body>
-
-    <div class="form-container">
-
-        <div class="content">
-            <header>
-                <h1>Update User Profile</h1>
-            </header>
-                  <img class="user_image" id="user_image" src="profile.jpeg"/>
-        </div>
-        <div class="form-area">
-            <div>
-                <form id="user-form">
-                    <fieldset>
-                        <legend>User Information</legend>
-                        <div class="form-row">
-                            <div class="fields">
-                                <label for="first-name">First Name</label>
-                                <input type="text" id="first-name" placeholder="First Name">
-                            </div>
-                            <div class="fields">
-                                <label for="last-name">Last Name</label>
-                                <input type="text" id="last-name" placeholder="Last Name">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="fields">
-                                <label for="email">Email Address</label>
-                                <input type="email" id="email" placeholder="Email Address">
-                            </div>
-                            <div class="fields">
-                                <label for="national-id">National ID</label>
-                                <input type="text" id="national-id" placeholder="National ID">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="fields">
-                                <label for="email">Address</label>
-                                <input type="text" id="address" placeholder="Address">
-                            </div>
-                            <div class="fields">
-                                <label for="photo">Photo</label>
-                                <input type="file" id="photo">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="fields">
-                                <label for="password">Password</label>
-                                <input type="password" id="password" placeholder="Confirm your Password">
-                                <div class="error-message" id="password_error_message"></div>
-                            </div>
-                        </div>
-                    </fieldset>
-                    <button type="submit" class="update-btn">Update</button>
-                </form>
+    <form id="visitor-form">
+    <header>
+        <h1>Registration Forms</h1>
+        <button class="update-btn">Update Form</button>
+    </header>
+        <fieldset>
+            <legend>Personal Information</legend>
+            <div class="form-row">
+                <div class="fields">
+                    <label for="first-name">First Name</label>
+                    <input type="text" id="first-name" placeholder="First Name">
+                    <div id="error_message"></div> 
+                </div>
+                <div class="fields">
+                    <label for="last-name">Last Name</label>
+                    <input type="text" id="last-name" placeholder="Last Name">
+                    <div id="error_message"></div> 
+                </div>
             </div>
-        </div>
-    </div>
+            <div class="form-row">
+                <div class="fields">
+                    <label for="gender">Gender</label>
+                    <!-- Dropdown for selecting gender -->
+                    <select id="gender" name="gender">
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <div class="fields">
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" id="dob" placeholder="D.O.B">
+                </div>
+            </div>
 
+            <div class="form-row">
+                <div class="fields">
+                    <label for="nationality">Nationality</label>
+                    <!-- Dropdown for selecting nationality -->
+                    <select id="nationality" name="nationality">
+                        <option value="">Select Nationality</option>
+                        <option value="uganda">Uganda</option>
+                        <option value="kenya">Kenya</option>
+                        <option value="tanzania">Tanzania</option>
+                        <option value="rwanda">Rwanda</option>
+                    </select>
+                    <div id="error_message"></div> 
+                </div>
+                <div class="fields">
+                    <label for="photo">Photo</label>
+                    <input type="file" id="photo" placeholder="Photo">
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Contact Information</legend>
+
+            <div class="form-row">
+                <div class="fields">
+                    <label for="phone">Phone Number</label>
+                    <input type="text" id="phone" placeholder="Phone Number">
+                </div>
+                <div class="fields">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Email Address">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="fields">
+                    <label for="home-address">Home Address</label>
+                    <input type="text" id="home-address" placeholder="Home Address">
+                </div>
+                <div class="fields">
+                    <label for="emergency">Emergency Contact (optional)</label>
+                    <input type="text" id="emergency" placeholder="Emergency Contact (optional)">
+                </div>
+            </div>
+        </fieldset>
+
+
+        <fieldset>
+            <legend>Visit Information</legend>
+
+            <div class="form-row">
+                <div class="fields">
+                    <label for="purpose">Purpose of Visit</label>
+                    <input type="text" id="purpose" placeholder="Purpose of Visit">
+                </div>
+                <div class="fields">
+                    <label for="host">Host/Contact Person in the Company</label>
+                    <input type="text" id="host" placeholder="Host/Contact Person in the Company">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="fields">
+                    <label for="home-adddress">Home Address</label>
+                    <input type="text" id="home-address-visit" placeholder="Home Address">
+                </div>
+                <div class="fields">
+                    <label for="schedule_time">Scheduled Meeting Time</label>
+                    <input type="datetime-local" id="schedule_time" placeholder="Scheduled Meeting Time">
+                </div>
+            </div>
+        </fieldset>
+
+
+        <fieldset>
+            <legend>Security and Compliance</legend>
+
+            <div class="form-row">
+                <div class="fields">
+                    <label for="badge_number">Visitor badge number</label>
+                    <input type="text" id="badge_number" placeholder="Visitor badge number">
+                </div>
+                <div class="fields">
+                    <label for="entry">Entry Time</label>
+                    <input type="time" id="entry" placeholder="Entry Time">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="fields">
+                    <label for="exit">Exit Time</label>
+                    <input type="time" id="exit" placeholder="Exit Time">
+                </div>
+            </div>
+        </fieldset>
+    </form>
 </body>
-
 </html>
