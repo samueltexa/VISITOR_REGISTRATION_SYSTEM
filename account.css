@@ -79,7 +79,8 @@ input[type="password"] {
 
 .user_image {
     width: 350px;
-    height: 250px;
+    height: 350px;
     margin: 10px 0; 
     align-self: center;
+    border-radius: 20px;
 }
