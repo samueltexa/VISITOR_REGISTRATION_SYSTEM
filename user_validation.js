@@ -67,7 +67,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!querySnapshot.empty) {
           const userDoc = querySnapshot.docs[0].data();
 
-          // passwords should be hashed and verified through a secure method
+    
+          // passwords should be hashed and verified through a secure method)
           if (userDoc.password === password) {
             window.location.href = "home.html";
           } else {
@@ -79,9 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "Username not found.";
         }
       } catch (error) {
-        console.error("Network error:", error);
-        document.getElementById("username_error_message").innerText =
-          "Network error. Please try again later.";
+        console.error("Error logging in:", error);
       } finally {
         // Reset button state after processing
         loginButton.textContent = "Login";
