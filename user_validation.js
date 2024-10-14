@@ -14,6 +14,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // Function to validate login form
+// Function to validate login form
 function validateLoginForm() {
   let isValid = true;
 
@@ -38,62 +39,80 @@ function validateLoginForm() {
   return isValid;
 }
 
-// Handle login
+// Function to check network status and enable/disable login button
+function checkNetworkStatus() {
+  const loginButton = document.getElementById("login-button");
+  const networkStatusMessage = document.getElementById("network-status-message");
+
+  if (!navigator.onLine) {
+    loginButton.disabled = true;
+    networkStatusMessage.textContent = "No network connection. Please check your internet and try again.";
+  } else {
+    loginButton.disabled = false;
+    networkStatusMessage.textContent = ""; // Clear any previous message
+  }
+}
+
+// Handle login form submission
 document.addEventListener("DOMContentLoaded", () => {
-  document
-    .getElementById("login-form")
-    .addEventListener("submit", async (event) => {
-      // Validate the form before proceeding
-      if (!validateLoginForm()) {
-        event.preventDefault();
-        return; // Stop here if validation fails
-      }
+  const loginForm = document.getElementById("login-form");
+  const loginButton = document.getElementById("login-button");
 
-      event.preventDefault(); // Prevent default form submission
-      const username = document.getElementById("login_username").value;
-      const password = document.getElementById("login_password").value;
+  // Check initial network status on page load
+  checkNetworkStatus();
 
-      const loginButton = event.target.querySelector("button");
-      // Change button text to "Loading..."
-      loginButton.textContent = "Loading...";
-      loginButton.disabled = true; // Disable the button
+  // Listen for network status changes
+  window.addEventListener("online", checkNetworkStatus);
+  window.addEventListener("offline", checkNetworkStatus);
 
-      try {
-        // Check if username exists in Firestore
-        const usersRef = collection(db, "users");
-        const q = query(usersRef, where("username", "==", username));
-        const querySnapshot = await getDocs(q);
+  loginForm.addEventListener("submit", async (event) => {
+    // Check if network is online before proceeding
+    if (!navigator.onLine) {
+      event.preventDefault();
+      document.getElementById("network-status-message").textContent =
+        "Network error. Please check your internet connection and try again.";
+      return; // Stop submission
+    }
 
-        // If the query completes successfully, check for empty snapshot
-        if (!querySnapshot.empty) {
-          const userDoc = querySnapshot.docs[0].data();
+    // Validate the form before proceeding
+    if (!validateLoginForm()) {
+      event.preventDefault();
+      return; // Stop if validation fails
+    }
 
-          // Assuming you store the plain password (hashing should be done in real apps)
-          if (userDoc.password === password) {
-            window.location.href = "home.html"; // Login success
-          } else {
-            document.getElementById("password_error_message").innerText =
-              "Invalid password.";
-          }
+    event.preventDefault(); // Prevent default form submission
+    const username = document.getElementById("login_username").value;
+    const password = document.getElementById("login_password").value;
+
+    loginButton.textContent = "Loading...";
+    loginButton.disabled = true;
+
+    try {
+      const usersRef = collection(db, "users");
+      const q = query(usersRef, where("username", "==", username));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        const userDoc = querySnapshot.docs[0].data();
+        if (userDoc.password === password) {
+          window.location.href = "home.html";
         } else {
-          document.getElementById("username_error_message").innerText =
-            "Username not found.";
+          document.getElementById("password_error_message").innerText =
+            "Invalid password.";
         }
-      } catch (error) {
-        // Check if the error is related to the network
-        if (error.message.includes("network") || !navigator.onLine) {
-          document.getElementById("username_error_message").innerText =
-            "Network error. Please check your internet connection and try again.";
-        } else {
-          console.error("Error logging in:", error);
-          document.getElementById("username_error_message").innerText =
-            "An unexpected error occurred. Please try again later.";
-        }
-      } finally {
-        // Reset button state after processing
-        loginButton.textContent = "Login";
-        loginButton.disabled = false;
+      } else {
+        document.getElementById("username_error_message").innerText =
+          "Username not found.";
       }
-    });
+    } catch (error) {
+      console.error("Error logging in:", error);
+      document.getElementById("network-status-message").textContent =
+        "An unexpected error occurred. Please try again later.";
+    } finally {
+      loginButton.textContent = "Login";
+      loginButton.disabled = false;
+    }
+  });
 });
+
 
