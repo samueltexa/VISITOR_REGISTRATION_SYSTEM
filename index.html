@@ -7,9 +7,16 @@
     <title>Login</title>
     <link rel="stylesheet" href="login.css">
     <script type="module" src="user_validation.js"></script>
+    <script src="network-status.js"></script>
 </head>
 
 <body>
+
+    <div id="network-status" style="display: none; background-color: red; color: white; padding: 10px; position: fixed; top: 0; width: 100%; text-align: center;">
+        Unable to connect. Please check your network connection.
+    </div>
+   
+    
 
     <div class="login-container">
         <div class="logo">
