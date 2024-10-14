@@ -64,13 +64,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const q = query(usersRef, where("username", "==", username));
         const querySnapshot = await getDocs(q);
 
+        // If the query completes successfully, check for empty snapshot
         if (!querySnapshot.empty) {
           const userDoc = querySnapshot.docs[0].data();
 
-    
-          // passwords should be hashed and verified through a secure method)
+          // Assuming you store the plain password (hashing should be done in real apps)
           if (userDoc.password === password) {
-            window.location.href = "home.html";
+            window.location.href = "home.html"; // Login success
           } else {
             document.getElementById("password_error_message").innerText =
               "Invalid password.";
@@ -80,7 +80,15 @@ document.addEventListener("DOMContentLoaded", () => {
             "Username not found.";
         }
       } catch (error) {
-        console.error("Error logging in:", error);
+        // Check if the error is related to the network
+        if (error.message.includes("network") || !navigator.onLine) {
+          document.getElementById("username_error_message").innerText =
+            "Network error. Please check your internet connection and try again.";
+        } else {
+          console.error("Error logging in:", error);
+          document.getElementById("username_error_message").innerText =
+            "An unexpected error occurred. Please try again later.";
+        }
       } finally {
         // Reset button state after processing
         loginButton.textContent = "Login";
@@ -88,3 +96,4 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 });
+
