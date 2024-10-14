@@ -7,7 +7,27 @@
     <title>Login</title>
     <link rel="stylesheet" href="login.css">
     <script type="module" src="user_validation.js"></script>
-     <script src="network-status.js"></script>
+    <script src="network-status.js"></script>
+    <style>
+        /* Default styles (for non-mobile devices) */
+        .not-available {
+            display: none;
+        }
+        
+        /* Hide login form on small devices and show "Not Available" message */
+        @media (max-width: 768px) {
+            .login-container {
+                display: none; /* Hide the login form on mobile devices */
+            }
+            .not-available {
+                display: block; /* Show the "Not Available" message on mobile devices */
+                text-align: center;
+                font-size: 24px;
+                color: red;
+                margin-top: 50px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -15,9 +35,8 @@
     <div id="network-status" style="display: none; background-color: red; color: white; padding: 10px; position: fixed; top: 0; width: 100%; text-align: center;">
         Unable to connect. Please check your network connection.
     </div>
-   
     
-
+    <!-- Login Form -->
     <div class="login-container">
         <div class="logo">
             <img src="profile.jpeg" alt="Company Logo"> 
@@ -26,9 +45,8 @@
         <form id="login-form">
             <div class="input-group">
                 <label for="username">Username or ID</label>
-                <input type="text"  id="login_username" placeholder="Enter your username or ID">
+                <input type="text" id="login_username" placeholder="Enter your username or ID">
                 <div class="error-message" id="username_error_message"></div>
-                
             </div>
             <div class="input-group">
                 <label for="password">Password</label>
@@ -37,6 +55,11 @@
             </div>
             <button type="submit">Login</button>
         </form>
+    </div>
+
+    <!-- Not Available Message for mobile -->
+    <div class="not-available">
+        This website is not available on mobile devices. Please switch to a desktop. Thank you
     </div>
 
 </body>
