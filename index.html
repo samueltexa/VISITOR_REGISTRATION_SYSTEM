@@ -8,26 +8,6 @@
     <link rel="stylesheet" href="login.css">
     <script type="module" src="user_validation.js"></script>
     <script src="network-status.js"></script>
-    <style>
-        /* Default styles (for non-mobile devices) */
-        .not-available {
-            display: none;
-        }
-        
-        /* Hide login form on small devices and show "Not Available" message */
-        @media (max-width: 768px) {
-            .login-container {
-                display: none; /* Hide the login form on mobile devices */
-            }
-            .not-available {
-                display: block; /* Show the "Not Available" message on mobile devices */
-                text-align: center;
-                font-size: 24px;
-                color: red;
-                margin-top: 50px;
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -55,11 +35,6 @@
             </div>
             <button type="submit">Login</button>
         </form>
-    </div>
-
-    <!-- Not Available Message for mobile -->
-    <div class="not-available">
-        This website is not available on mobile devices. Please switch to a desktop. Thank you
     </div>
 
 </body>
